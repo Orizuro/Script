@@ -1,8 +1,8 @@
 def make_table(variables):
     n = len(variables)
     w = n + 1
-    h = 2 ** n + 1
-    interval = 2 ** n
+    h = 2**n + 1
+    interval = 2**n
     fill = 0
     matrix = [[0 for x in range(w)] for y in range(h)]
     for j in range(0, n):
@@ -22,22 +22,22 @@ def make_table(variables):
 
 
 def logic_operator(c, a, b):
-    if c == '/':
+    if c == "/":
         if a == 1 and b == 1:
             return 0
         else:
             return 1
-    if c == '*':
+    if c == "*":
         if a == 1 and b == 1:
             return 1
         else:
             return 0
-    if c == '+':
+    if c == "+":
         if a == 0 and b == 0:
             return 0
         else:
             return 1
-    if c == '-':
+    if c == "-":
         if a == 0 and b == 0:
             return 1
         else:
@@ -59,7 +59,9 @@ def make_operation(matrix, letter, operation):
             result.append(false_results(negative, r))
         return result
     for i in range(0, len(result)):
-        result[i] = logic_operator(operation, result[i], false_results(negative, matrix[i + 1][column_index]))
+        result[i] = logic_operator(
+            operation, result[i], false_results(negative, matrix[i + 1][column_index])
+        )
     return result
 
 
@@ -67,8 +69,7 @@ def print_result(matrix):
     matrix[0][-1] = "Func"
     for i in range(0, len(result)):
         matrix[i + 1][-1] = result[i]
-    print('\n'.join([''.join(['{:4}'.format(item) for item in row])
-                     for row in matrix]))
+    print("\n".join(["".join(["{:4}".format(item) for item in row]) for row in matrix]))
 
 
 def extract_variables(lista):
@@ -102,7 +103,7 @@ def calculate(lista, matrix):
 def check_negative(list):
     temp_index = []
     for i in range(len(list) - 1):
-        if list[i] == '!':
+        if list[i] == "!":
             temp_var = list[i + 1]
             list[i + 1] = temp_var.lower()
             temp_index.append(i)
@@ -124,24 +125,24 @@ def take_of_parenthesis(list):
     counter = 0
     k = 0
     for i in range(len(list)):
-        if list[i] == '(':
+        if list[i] == "(":
             counter += 1
     while k < counter:
         temp_index = []
         rn = []
         h = 0
-        letter = 'a'
+        letter = "a"
         for i in reversed(range(len(list))):
-            if list[i] == '(':
+            if list[i] == "(":
                 letter = list[i - 1]
                 rn.append(i)
-                rn.append(i-1)
+                rn.append(i - 1)
                 h = i
                 break
         while h < len(list):
-            if is_letter(list[h]) and not is_letter(list[h-1]):
+            if is_letter(list[h]) and not is_letter(list[h - 1]):
                 temp_index.append(h)
-            if list[h] == ')':
+            if list[h] == ")":
                 rn.append(h)
                 break
             h += 1
@@ -149,7 +150,7 @@ def take_of_parenthesis(list):
             if j in rn:
                 list.pop(j)
             if j in temp_index:
-                list.insert(j+1, letter)
+                list.insert(j + 1, letter)
         k += 1
 
 
@@ -159,7 +160,7 @@ def separate_letters(list):
         if is_letter(list[i]) and is_letter(list[i + 1]):
             temp_index.append(i + 1)
     for i in reversed(range(len(temp_index))):
-        list.insert(temp_index[i], '*')
+        list.insert(temp_index[i], "*")
 
 
 def is_letter(list):
@@ -170,7 +171,7 @@ def is_letter(list):
 
 
 result = []
-user = input("Type yor equation")
+user = input("Type yor equation: ")
 user_list = list(user)
 variables = extract_variables(user_list)
 table_of_truth = make_table(variables)
